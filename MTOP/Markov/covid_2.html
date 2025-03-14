@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "fixed": true, "id": "S", "label": "S", "shape": "dot", "size": 20, "title": "level start", "x": 0, "y": 0}, {"color": "lightblue", "fixed": true, "id": "I", "label": "I", "shape": "dot", "size": 20, "title": "food taken by player eat", "x": 200, "y": 0}, {"color": "lightblue", "fixed": true, "id": "R", "label": "R", "shape": "dot", "size": 20, "title": "start run", "x": 500, "y": 0}, {"color": "lightblue", "fixed": true, "id": "N", "label": "N", "shape": "dot", "size": 20, "title": "robot killed using shield name", "x": 800, "y": 0}, {"color": "lightblue", "fixed": true, "id": "M", "label": "M", "shape": "dot", "size": 20, "title": "robot killed using bad food name", "x": 1100, "y": 0}, {"color": "lightblue", "fixed": true, "id": "K", "label": "K", "shape": "dot", "size": 20, "title": "food thrown by ai forceeat", "x": 1400, "y": 0}, {"color": "lightblue", "fixed": true, "id": "C", "label": "C", "shape": "dot", "size": 20, "title": "covidaffect", "x": 1700, "y": 0}, {"color": "lightblue", "fixed": true, "id": "D", "label": "D", "shape": "dot", "size": 20, "title": "covidnotcleaned", "x": 200, "y": 150}, {"color": "lightblue", "fixed": true, "id": "E", "label": "E", "shape": "dot", "size": 20, "title": "covidwashed", "x": 500, "y": 150}, {"color": "lightblue", "fixed": true, "id": "J", "label": "J", "shape": "dot", "size": 20, "title": "jump", "x": 800, "y": 150}, {"color": "lightblue", "fixed": true, "id": "L", "label": "L", "shape": "dot", "size": 20, "title": "level customization", "x": 1100, "y": 150}, {"color": "lightblue", "fixed": true, "id": "A", "label": "A", "shape": "dot", "size": 20, "title": "activate prop", "x": 1400, "y": 150}, {"color": "lightblue", "fixed": true, "id": "O", "label": "O", "shape": "dot", "size": 20, "title": "start exercise", "x": 1700, "y": 150}, {"color": "lightblue", "fixed": true, "id": "H", "label": "H", "shape": "dot", "size": 20, "title": "end exercise", "x": 200, "y": 300}, {"color": "lightblue", "fixed": true, "id": "G", "label": "G", "shape": "dot", "size": 20, "title": "goodchoose", "x": 2300, "y": -100}, {"color": "lightblue", "fixed": true, "id": "B", "label": "B", "shape": "dot", "size": 20, "title": "badchoose", "x": 2300, "y": 100}, {"color": "lightblue", "fixed": true, "id": "W", "label": "W", "shape": "dot", "size": 20, "title": "level win", "x": 2000, "y": -50}, {"color": "lightblue", "fixed": true, "id": "F", "label": "F", "shape": "dot", "size": 20, "title": "level fail", "x": 2000, "y": 50}]);
+                  edges = new vis.DataSet([{"arrowStrikethrough": false, "arrows": "to", "color": "#ffe6b9", "from": "S", "label": "0.27", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level start to food taken by player eat: 0.27", "to": "I", "value": 0.27348066298342544}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffe5b5", "from": "C", "label": "0.29", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidaffect to food taken by player eat: 0.29", "to": "I", "value": 0.291970802919708}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff1d7", "from": "S", "label": "0.16", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level start to food thrown by ai forceeat: 0.16", "to": "K", "value": 0.15676795580110497}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffedcc", "from": "M", "label": "0.20", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of robot killed using bad food name to food thrown by ai forceeat: 0.20", "to": "K", "value": 0.1999702646446625}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffe2ad", "from": "K", "label": "0.32", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of food thrown by ai forceeat to food thrown by ai forceeat: 0.32", "to": "K", "value": 0.32001158412974223}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffecca", "from": "H", "label": "0.21", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of end exercise to food thrown by ai forceeat: 0.21", "to": "K", "value": 0.20689655172413793}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdd9f", "from": "S", "label": "0.38", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level start to start run: 0.38", "to": "R", "value": 0.3763812154696133}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffe2ae", "from": "I", "label": "0.32", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of food taken by player eat to start run: 0.32", "to": "R", "value": 0.31795620437956207}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdb98", "from": "R", "label": "0.40", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of start run to start run: 0.40", "to": "R", "value": 0.402407519375584}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffedcb", "from": "N", "label": "0.20", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of robot killed using shield name to start run: 0.20", "to": "R", "value": 0.2047177759056445}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffecc9", "from": "M", "label": "0.21", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of robot killed using bad food name to start run: 0.21", "to": "R", "value": 0.21052631578947367}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdc9d", "from": "K", "label": "0.39", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of food thrown by ai forceeat to start run: 0.39", "to": "R", "value": 0.38589632203880686}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffecc9", "from": "C", "label": "0.21", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidaffect to start run: 0.21", "to": "R", "value": 0.2116788321167883}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffecca", "from": "D", "label": "0.21", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidnotcleaned to start run: 0.21", "to": "R", "value": 0.20930232558139536}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffcb6a", "from": "E", "label": "0.58", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidwashed to start run: 0.58", "to": "R", "value": 0.5833333333333334}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdb9a", "from": "J", "label": "0.40", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of jump to start run: 0.40", "to": "R", "value": 0.39625989625989627}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffe3ae", "from": "L", "label": "0.32", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level customization to start run: 0.32", "to": "R", "value": 0.3163265306122449}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffeece", "from": "A", "label": "0.19", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of activate prop to start run: 0.19", "to": "R", "value": 0.1917808219178082}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffd486", "from": "H", "label": "0.48", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of end exercise to start run: 0.48", "to": "R", "value": 0.47586206896551725}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffd587", "from": "L", "label": "0.47", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level customization to level customization: 0.47", "to": "L", "value": 0.46938775510204084}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffd78d", "from": "J", "label": "0.45", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of jump to jump: 0.45", "to": "J", "value": 0.4481299481299481}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff1d7", "from": "I", "label": "0.16", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of food taken by player eat to robot killed using bad food name: 0.16", "to": "M", "value": 0.1562043795620438}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdb9a", "from": "M", "label": "0.40", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of robot killed using bad food name to robot killed using bad food name: 0.40", "to": "M", "value": 0.39577757954207554}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff6e6", "from": "E", "label": "0.02", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidwashed to covidaffect: 0.02", "to": "C", "value": 0.016666666666666666}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffd382", "from": "D", "label": "0.49", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidnotcleaned to level fail: 0.49", "to": "F", "value": 0.4883720930232558}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffc965", "from": "A", "label": "0.60", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of activate prop to activate prop: 0.60", "to": "A", "value": 0.6027397260273972}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffdd9e", "from": "I", "label": "0.38", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of food taken by player eat to robot killed using shield name: 0.38", "to": "N", "value": 0.3807299270072993}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffd07a", "from": "N", "label": "0.52", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of robot killed using shield name to robot killed using shield name: 0.52", "to": "N", "value": 0.5226060095478798}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff2d9", "from": "E", "label": "0.15", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidwashed to robot killed using shield name: 0.15", "to": "N", "value": 0.15}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff2da", "from": "C", "label": "0.15", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidaffect to covidwashed: 0.15", "to": "E", "value": 0.145985401459854}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff6e6", "from": "R", "label": "0.04", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of start run to level win: 0.04", "to": "W", "value": 0.03770681031165833}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff6e6", "from": "R", "label": "0.01", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of start run to start exercise: 0.01", "to": "O", "value": 0.005001923816852636}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff6e6", "from": "C", "label": "0.04", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of covidaffect to covidnotcleaned: 0.04", "to": "D", "value": 0.0364963503649635}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffa604", "from": "O", "label": "0.99", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of start exercise to end exercise: 0.99", "to": "H", "value": 0.9862068965517241}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffad17", "from": "W", "label": "0.91", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level win to goodchoose: 0.91", "to": "G", "value": 0.9099264705882353}, {"arrowStrikethrough": false, "arrows": "to", "color": "#ffaf1c", "from": "F", "label": "0.89", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level fail to goodchoose: 0.89", "to": "G", "value": 0.8890532544378699}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff5e3", "from": "F", "label": "0.11", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level fail to badchoose: 0.11", "to": "B", "value": 0.11094674556213018}, {"arrowStrikethrough": false, "arrows": "to", "color": "#fff6e6", "from": "W", "label": "0.00", "physics": true, "smooth": {"roundness": 0.5, "type": "curvedCW"}, "title": "Prob of level win to level start: 0.00", "to": "S", "value": 0.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 14}, "scaling": {"min": 10, "max": 30}}, "edges": {"color": {"inherit": false}, "smooth": {"type": "dynamic"}}, "layout": {"hierarchical": false}, "physics": {"enabled": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+            <div style="
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: white;
+                border: 1px solid #ccc;
+                padding: 5px;
+                z-index: 1000;
+                max-width: 100%;
+                white-space: normal;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                line-height: 1.8em;">
+            <span style='margin-right: 20px;'>S: level start</span><span style='margin-right: 20px;'>I: food taken by player eat (6.58%)</span><span style='margin-right: 20px;'>R: start run (34.99%)</span><span style='margin-right: 20px;'>N: robot killed using shield name (13.68%)</span><span style='margin-right: 20px;'>M: robot killed using bad food name (12.92%)</span><span style='margin-right: 20px;'>K: food thrown by ai forceeat (13.27%)</span><span style='margin-right: 20px;'>C: covidaffect (0.26%)</span><span style='margin-right: 20px;'>D: covidnotcleaned (0.08%)</span><span style='margin-right: 20px;'>E: covidwashed (0.12%)</span><span style='margin-right: 20px;'>J: jump (14.08%)</span><span style='margin-right: 20px;'>L: level customization (0.19%)</span><span style='margin-right: 20px;'>A: activate prop (0.14%)</span><span style='margin-right: 20px;'>O: start exercise (0.28%)</span><span style='margin-right: 20px;'>H: end exercise (0.28%)</span><span style='margin-right: 20px;'>G: goodchoose (2.37%)</span><span style='margin-right: 20px;'>B: badchoose (0.75%)</span><span style='margin-right: 20px;'>W: level win</span><span style='margin-right: 20px;'>F: level fail</span><span style='margin-right: 20px;'>Win Percentage: 42.62%</span><span style='margin-right: 20px;'>Fail Percentage: 57.38%</span></div></body>
+</html>
