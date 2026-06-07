@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raphael Jeong Hin Chin | Data Scientist</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      --bg-main: #0f172a;
+      --bg-secondary: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --nav-bg: rgba(15, 23, 42, 0.95);
+      --border-color: #334155;
+    }
+
+    [data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-secondary: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      --nav-bg: rgba(248, 250, 252, 0.95);
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Navigation Bar */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--text-main);
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      color: var(--accent);
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Layout & Sections */
+    main {
+      padding-top: 80px;
+    }
+
+    section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Hero Section (Side-by-Side Layout) */
+    .hero-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4rem;
+      min-height: 70vh;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      width: 450px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      border: 3px solid var(--accent);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      object-fit: cover;
+    }
+
+    .hero-image img:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 5px;
+      font-weight: 600;
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: transparent;
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--accent);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Grid & Cards */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+      border-color: var(--accent);
+    }
+
+    .card ul {
+      list-style-position: outside;
+      margin-left: 1.5rem;
+      color: var(--text-muted);
+    }
+
+    .card li {
+      margin-bottom: 0.8rem;
+    }
+
+    /* Skills Tags */
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .skill-tag {
+      background-color: var(--bg-secondary);
+      color: var(--accent);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Scroll Reveal Animation Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--nav-bg);
+        flex-direction: column;
+        padding: 2rem 0;
+        gap: 2rem;
+        border-bottom: 1px solid var(--border-color);
+        clip-path: circle(0% at 100% 0);
+        transition: clip-path 0.4s ease-out;
+      }
+
+      .nav-links.nav-active {
+        clip-path: circle(150% at 100% 0);
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 2.5rem;
+      }
+
+      .btn-container {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="#home">
+        <div class="logo">Raphael<span>.</span>Chin</div>
+      </a>
+
+      <button class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="nav-item">Home</a></li>
+        <li><a href="#about" class="nav-item">About</a></li>
+        <li><a href="#experience" class="nav-item">Experience</a></li>
+        <li><a href="#projects" class="nav-item">Projects</a></li>
+        <li><a href="#research" class="nav-item">Research</a></li>
+        <li><a href="#volunteer" class="nav-item">Volunteer</a></li>
+        <li><a href="#contact" class="nav-item">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="theme-btn" aria-label="Toggle Dark/Light Mode">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="reveal">
+      <div class="hero-container">
+        <div class="hero-text">
+          <p class="subtitle">People Data Scientist | Machine Learning Engineer | Researcher</p>
+          <h1>Hi, I'm <br /><span class="typed-text" style="color: var(--accent);"></span></h1>
+          <p>I build intelligent, production-grade systems that turn ambiguous data into deeply human, product-oriented
+            solutions. Specializing in GenAI, ML pipelines, and causal inference.</p>
+          <div class="btn-container">
+            <a href="#contact" class="btn">Get in Touch</a>
+            <a href="https://drive.google.com/file/d/11Vr9bavW3D-XR0v9iKyNNPi4QX68L6Ke/view?usp=sharing" target="_blank"
+              class="btn btn-outline">View Resume</a>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <img src="image/Pic_Tokyo.jpeg" alt="Raphael Jeong Hin Chin">
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <h2>About Me</h2>
+      <p>I am a Data Scientist at American Airlines dedicated to bridging the gap between cutting-edge machine learning
+        and deeply human experiences. My academic journey began with a unique triple-major B.S. in Data Science, Asian
+        Studies, and Statistics, culminating in a Master of Science in Information (Data Science) from the University of
+        Michigan.</p>
+      <p>Beyond my data pipelines, I am an active volunteer translating Buddhist texts to English, a polyglot (fluent in
+        Malay, Mandarin, and English; conversational in Japanese, Hokkien, Hakka, and Cantonese), and a culinary
+        enthusiast.</p>
+
+      <h3>Technical Toolbox</h3>
+      <div class="skills-container">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">LLMs</span>
+        <span class="skill-tag">RAG / Vector Search</span>
+        <span class="skill-tag">Databricks</span>
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">Microsoft Copilot Studio</span>
+        <span class="skill-tag">Alteryx</span>
+      </div>
+    </section>
+
+    <section id="experience" class="reveal">
+      <h2>Experience</h2>
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <div class="card reveal">
+          <h3>American Airlines</h3>
+          <h4>People Data Scientist (Intern & Full-Time) | June 2024 – Present</h4>
+          <ul>
+            <li><strong>GenAI & Copilot Systems:</strong> Architected an LLM-powered travel agent integrating Databricks
+              Genie MCP to analyze flight data and calculate standby clearance probabilities. Deployed a ticketing
+              assistant using Microsoft Copilot Studio to automate analytics intake and enforce SLA compliance.</li>
+            <li><strong>Dashboard UX Redesign:</strong> Architected an automated travel analytics dashboard in Tableau,
+              consolidating a year of manual reporting requests into a unified platform for executive route evaluation.
+            </li>
+            <li><strong>Policy Impact:</strong> Analyzed travel trend data using a Mann-Whitney U test to compare pass
+              utilization among interns, presenting insights to the Chief People Officer that directly resulted in an
+              extended flight privilege policy.</li>
+            <li><strong>Data Engineering:</strong> Engineered a production ETL pipeline for point-in-time snapshots
+              using
+              SQL/Python, capturing accountability and travel data to enable time-aware model training.</li>
+            <li><strong>Workflow Automation:</strong> Orchestrated automated workflow pipelines using Alteryx, Python,
+              and
+              Power Automate, reducing manual reporting latency to save 10 hours weekly and approximately $23,400
+              annually.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <h3>University of Michigan Shared Services Center</h3>
+          <h4>Robotic Process Automation Intern | May 2022 – Aug 2023</h4>
+          <ul>
+            <li><strong>Workflow Automation:</strong> Developed software robots to automate complex business processes,
+              resulting in the saving of more than 1,500 employee hours per annum and faster execution times.</li>
+            <li><strong>Data Integration:</strong> Connected software robots with ODBC drivers and ran SQL queries to
+              seamlessly retrieve necessary data.</li>
+            <li><strong>Email Triage System:</strong> Developed a software robot to monitor 51 delegated email accounts
+              and systematically log accounts requiring administrator attention.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <h3>Parcel Health</h3>
+          <h4>Software Engineering Intern | June 2021 – Aug 2021</h4>
+          <ul>
+            <li><strong>Web Application Development:</strong> Developed a web application to display risk estimation of
+              specific diseases to help patients better adhere to their prescribed medications.</li>
+            <li><strong>Database Architecture:</strong> Spearheaded the design of an Entity-Relationship (ER) database
+              focused on minimizing data redundancy while containing sufficient attributes to automatically update risk
+              estimations for patients.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <h2>Featured Projects</h2>
+      <div class="grid-container">
+
+        <div class="card reveal">
+          <h3><a href="https://birdseyesharing.com/" target="_blank" style="color: inherit;">Birdseye</a></h3>
+          <h4>Founder & ML Engineer</h4>
+          <p>A full-stack NLP platform leveraging OCR, transformer-based image captioning, and GPT-based conversational
+            retrieval to democratize access to Asian history artifacts. Achieved double-digit improvements in search
+            precision through custom embeddings.</p>
+          <a href="https://birdseyesharing.com/" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+          <a href="https://www.youtube.com/watch?v=FiZ5ljy7V4c" target="_blank" style="margin-left: 10px;">Watch Demo <i
+              class="fab fa-youtube"></i></a>
+        </div>
+
+        <div class="card reveal">
+          <h3><a href="https://jeonghin.github.io/SI649_NarrativeViz/" target="_blank" style="color: inherit;">Malaysian
+              Political Dynamics Predictor</a></h3>
+          <h4>Machine Learning Pipeline</h4>
+          <p>Predictive modeling framework built to analyze and visualize the 15th General Election data in Malaysia,
+            utilizing advanced statistical classification models.</p>
+          <a href="https://jeonghin.github.io/SI649_NarrativeViz/" target="_blank">View Project <i
+              class="fas fa-external-link-alt"></i></a>
+          <a href="https://github.com/jeonghin/MPDP" target="_blank" style="margin-left: 10px;">View Repository <i
+              class="fab fa-github"></i></a>
+        </div>
+
+        <div class="card reveal">
+          <h3><a href="https://github.com/DepressionCenter/MiNap" target="_blank" style="color: inherit;">Eisenberg
+              Family Depression Center App</a></h3>
+          <h4>MiNap Application</h4>
+          <p>Collaborated on a software application designed to support sleep and mental health tracking for users,
+            contributing to backend data structuring.</p>
+          <a href="https://github.com/DepressionCenter/MiNap" target="_blank">View Repository <i
+              class="fab fa-github"></i></a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="research" class="reveal">
+      <h2>Academic Research</h2>
+      <div class="card reveal">
+        <h3>University of Michigan</h3>
+        <h4>Data Scientist & Research Assistant | Sept 2019 – Present</h4>
+        <ul>
+          <li><strong>Causal Inference:</strong> Performed causal-impact analysis using counterfactual modeling to
+            measure the effectiveness of COVID-19 policies on physical activity across a European cohort.</li>
+          <li><strong>Behavioral Modeling:</strong> Applied Random Forest and Bayesian hierarchical models to a
+            multi-semester dataset of 5,000 students, identifying behavioral predictors of effective collaboration with
+            >75% accuracy.</li>
+          <li><strong>Clustering Pipelines:</strong> Spearheaded a K-means clustering pipeline to group students by
+            personality and work-style traits, replacing faculty intuition with reproducible algorithmic team
+            assignments.</li>
+          <li><strong>Longitudinal Analysis:</strong> Modeled health-survey data using dynamic time warping to identify
+            patterns in diet and hygiene for interventions in India.</li>
+        </ul>
+        <a href="https://scholar.google.com/citations?user=e2ZUooEAAAAJ&hl=en&oi=ao" target="_blank">
+          <h4 style="margin-top: 1.5rem;">Selected Publications <i class="fas fa-external-link-alt"></i></h4>
+        </a>
+        <ul>
+          <li><strong>IEEE CoG 2024:</strong> Examining Gameplay Patterns and their Association with Nutritional
+            Knowledge.</li>
+          <li><strong>CHITA 2024 [HEALTH IT in ACTION Award]:</strong> Effect of AI-enabled School-Based Mobile Health
+            Game Play on Health Knowledge.</li>
+          <li><strong>ASEE 2023:</strong> Predicting Team Function Using Bayesian and Cognitive Diagnostic Modeling
+            Approaches.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="volunteer" class="reveal">
+      <h2>Community & Volunteer Work</h2>
+      <div class="grid-container">
+        <div class="card reveal">
+          <h3>Buddhist Text Translation</h3>
+          <p>I actively volunteer to translate ancient Buddhist texts into English. My goal is to break down linguistic
+            barriers, helping English speakers explore and learn more about Buddhism in an accessible, nuanced way.</p>
+        </div>
+        <div class="card reveal">
+          <h3>"Local Business Going Online" Initiative</h3>
+          <p>During the COVID-19 pandemic, I led a voluntary program to help local small businesses transition to
+            e-commerce. I built free websites and offered technical support to ensure their survival and growth in the
+            digital landscape.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>Let's Connect</h2>
+      <p>I am always looking for the next fascinating intersection between data science, education, and human
+        connection. Feel free to reach out!</p>
+
+      <div style="font-size: 1.8rem; margin-bottom: 2.5rem; display: flex; gap: 1.5rem;">
+        <a href="https://www.linkedin.com/in/jeonghin-chin/" target="_blank" aria-label="LinkedIn"><i
+            class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/jeonghin" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="mailto:jeonghinbusiness@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <footer
+    style="text-align: center; padding: 2rem; background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); color: var(--text-muted);">
+    <p>&copy; <span id="year"></span> Raphael Jeong Hin Chin. Designed with <i class="fas fa-code"></i> and <i
+        class="fas fa-heart"></i>.</p>
+  </footer>
+
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+  <script>
+    // Initialize Typed.js
+    document.addEventListener('DOMContentLoaded', function () {
+      var typed = new Typed('.typed-text', {
+        strings: [
+          'Raphael Jeong Hin Chin.',
+          'a People Data Scientist.',
+          'an ML Engineer.',
+          'a Researcher.',
+          'a Polyglot.'
+        ],
+        typeSpeed: 60,
+        backSpeed: 40,
+        backDelay: 1500,
+        startDelay: 500,
+        loop: true,
+        showCursor: true,
+        cursorChar: '|'
+      });
+    });
+
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu');
+    const navLinksList = document.getElementById('nav-links');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinksList.classList.toggle('nav-active');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (navLinksList.classList.contains('nav-active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinksList.classList.remove('nav-active');
+        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+      });
+    });
+
+    // Theme Toggle Logic
+    const themeBtn = document.getElementById('theme-btn');
+    const htmlElement = document.documentElement;
+    const themeIcon = themeBtn.querySelector('i');
+
+    // Check for saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === 'dark') {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    }
+
+    // Scroll Reveal Animation via Intersection Observer
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('active');
+      });
+    }, revealOptions);
+
+    revealElements.forEach(el => revealOnScroll.observe(el));
+
+    // Active Navigation Sync via Intersection Observer
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    const navOptions = {
+      threshold: 0.3, // Trigger when 30% of the section is visible
+      rootMargin: "-80px 0px 0px 0px" // Offset for fixed header
+    };
+
+    const navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          let currentId = entry.target.getAttribute('id');
+          navItems.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(currentId)) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, navOptions);
+
+    sections.forEach(section => navObserver.observe(section));
+  </script>
+</body>
+
+</html>
