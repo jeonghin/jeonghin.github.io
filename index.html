@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -8,41 +8,34 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables for Theming (Code Editor Theme) */
+    /* CSS Variables for Custom Palette */
     :root {
-      --bg-main: #1e1e1e;
-      /* IDE dark background */
-      --bg-secondary: #2d2d2d;
-      /* IDE panel background */
-      --text-main: #d4d4d4;
-      /* Standard code text color */
-      --text-muted: #858585;
-      /* Code comment color */
-      --accent: #4fc1ff;
-      /* Syntax highlight Cyan/Blue */
-      --accent-hover: #c586c0;
-      /* Syntax highlight Pink/Purple for hover */
-      --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-      --nav-bg: rgba(30, 30, 30, 0.95);
-      --border-color: #404040;
+      /* Main Light Theme using Custom Palette */
+      --bg-main: #f1ece1;
+      --bg-secondary: #f9e1b7;
+      --text-main: #2b2b2b;
+      /* Darkened slightly for readability */
+      --text-muted: #5c5c5c;
+      --accent: #74c4d7;
+      --accent-hover: #ff8c91;
+      --highlight: #f9c16e;
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      --nav-bg: rgba(241, 236, 225, 0.95);
+      --border-color: #f9c16e;
     }
 
-    [data-theme="light"] {
-      --bg-main: #f5f5f5;
-      /* IDE light background */
-      --bg-secondary: #ffffff;
-      /* IDE light panel */
-      --text-main: #333333;
-      /* Dark code text */
-      --text-muted: #6a737d;
-      /* Light comment color */
-      --accent: #005cc5;
-      /* Light theme blue keyword */
-      --accent-hover: #d73a49;
-      /* Light theme red/pink keyword */
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      --nav-bg: rgba(245, 245, 245, 0.95);
-      --border-color: #e1e4e8;
+    [data-theme="dark"] {
+      /* Dark Theme using Custom Palette as Accents */
+      --bg-main: #222222;
+      --bg-secondary: #2f2f2f;
+      --text-main: #f1ece1;
+      --text-muted: #f9e1b7;
+      --accent: #ff8c91;
+      --accent-hover: #f9c16e;
+      --highlight: #74c4d7;
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      --nav-bg: rgba(34, 34, 34, 0.95);
+      --border-color: #74c4d7;
     }
 
     * {
@@ -103,7 +96,7 @@
     }
 
     .logo span {
-      color: var(--accent);
+      color: var(--highlight);
     }
 
     .nav-links {
@@ -202,15 +195,14 @@
       height: auto;
       border-radius: 20px;
       box-shadow: var(--card-shadow);
-      border: 3px solid var(--accent);
+      border: 4px solid var(--highlight);
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       object-fit: cover;
     }
 
     .hero-image img:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(79, 193, 255, 0.15);
-      /* Slight neon glow effect */
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
       border-color: var(--accent-hover);
     }
 
@@ -224,7 +216,7 @@
     h2 {
       font-size: 2.5rem;
       margin-bottom: 2rem;
-      border-bottom: 2px solid var(--accent);
+      border-bottom: 3px solid var(--highlight);
       display: inline-block;
       padding-bottom: 0.5rem;
     }
@@ -268,8 +260,7 @@
       align-items: center;
       justify-content: center;
       background-color: var(--accent);
-      color: var(--bg-main);
-      /* Deep contrast for the button text */
+      color: #fff;
       padding: 12px 28px;
       border-radius: 5px;
       font-weight: 600;
@@ -280,8 +271,8 @@
     }
 
     .btn:hover {
-      background-color: transparent;
-      color: var(--accent-hover);
+      background-color: var(--accent-hover);
+      color: #fff;
       border-color: var(--accent-hover);
     }
 
@@ -291,9 +282,9 @@
     }
 
     .btn-outline:hover {
-      background-color: var(--accent-hover);
-      color: var(--bg-main);
-      border-color: var(--accent-hover);
+      background-color: var(--highlight);
+      color: #fff;
+      border-color: var(--highlight);
     }
 
     /* Grid & Cards */
@@ -314,7 +305,7 @@
 
     .card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
       border-color: var(--accent);
     }
 
@@ -338,19 +329,19 @@
 
     .skill-tag {
       background-color: var(--bg-main);
-      color: var(--accent);
+      color: var(--text-main);
       padding: 8px 16px;
       border-radius: 20px;
       font-size: 0.9rem;
       font-weight: 600;
-      border: 1px solid var(--border-color);
+      border: 2px solid var(--accent);
       transition: all 0.3s ease;
     }
 
     .skill-tag:hover {
       border-color: var(--accent-hover);
       background-color: var(--accent-hover);
-      color: var(--bg-main);
+      color: #fff;
     }
 
     /* Scroll Reveal Animation Classes */
@@ -696,8 +687,8 @@
     const htmlElement = document.documentElement;
     const themeIcon = themeBtn.querySelector('i');
 
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    // Check for saved theme (Defaulting to light mode so the pastel palette shows)
+    const savedTheme = localStorage.getItem('theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
