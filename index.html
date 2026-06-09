@@ -8,29 +8,41 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables for Theming */
+    /* CSS Variables for Theming (Code Editor Theme) */
     :root {
-      --bg-main: #0f172a;
-      --bg-secondary: #1e293b;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
-      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      --nav-bg: rgba(15, 23, 42, 0.95);
-      --border-color: #334155;
+      --bg-main: #1e1e1e;
+      /* IDE dark background */
+      --bg-secondary: #2d2d2d;
+      /* IDE panel background */
+      --text-main: #d4d4d4;
+      /* Standard code text color */
+      --text-muted: #858585;
+      /* Code comment color */
+      --accent: #4fc1ff;
+      /* Syntax highlight Cyan/Blue */
+      --accent-hover: #c586c0;
+      /* Syntax highlight Pink/Purple for hover */
+      --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      --nav-bg: rgba(30, 30, 30, 0.95);
+      --border-color: #404040;
     }
 
     [data-theme="light"] {
-      --bg-main: #f8fafc;
+      --bg-main: #f5f5f5;
+      /* IDE light background */
       --bg-secondary: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --accent: #0284c7;
-      --accent-hover: #0369a1;
+      /* IDE light panel */
+      --text-main: #333333;
+      /* Dark code text */
+      --text-muted: #6a737d;
+      /* Light comment color */
+      --accent: #005cc5;
+      /* Light theme blue keyword */
+      --accent-hover: #d73a49;
+      /* Light theme red/pink keyword */
       --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      --nav-bg: rgba(248, 250, 252, 0.95);
-      --border-color: #e2e8f0;
+      --nav-bg: rgba(245, 245, 245, 0.95);
+      --border-color: #e1e4e8;
     }
 
     * {
@@ -191,13 +203,15 @@
       border-radius: 20px;
       box-shadow: var(--card-shadow);
       border: 3px solid var(--accent);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       object-fit: cover;
     }
 
     .hero-image img:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 24px rgba(79, 193, 255, 0.15);
+      /* Slight neon glow effect */
+      border-color: var(--accent-hover);
     }
 
     /* Typography */
@@ -254,7 +268,8 @@
       align-items: center;
       justify-content: center;
       background-color: var(--accent);
-      color: #fff;
+      color: var(--bg-main);
+      /* Deep contrast for the button text */
       padding: 12px 28px;
       border-radius: 5px;
       font-weight: 600;
@@ -266,7 +281,8 @@
 
     .btn:hover {
       background-color: transparent;
-      color: var(--accent);
+      color: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
 
     .btn-outline {
@@ -275,8 +291,9 @@
     }
 
     .btn-outline:hover {
-      background-color: var(--accent);
-      color: #fff;
+      background-color: var(--accent-hover);
+      color: var(--bg-main);
+      border-color: var(--accent-hover);
     }
 
     /* Grid & Cards */
@@ -292,12 +309,12 @@
       border-radius: 10px;
       padding: 2.5rem;
       box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
       border-color: var(--accent);
     }
 
@@ -320,7 +337,7 @@
     }
 
     .skill-tag {
-      background-color: var(--bg-secondary);
+      background-color: var(--bg-main);
       color: var(--accent);
       padding: 8px 16px;
       border-radius: 20px;
@@ -331,9 +348,9 @@
     }
 
     .skill-tag:hover {
-      border-color: var(--accent);
-      background-color: var(--accent);
-      color: #fff;
+      border-color: var(--accent-hover);
+      background-color: var(--accent-hover);
+      color: var(--bg-main);
     }
 
     /* Scroll Reveal Animation Classes */
@@ -397,10 +414,7 @@
 
   <header>
     <div class="nav-container">
-      <a href="#home">
-        <div class="logo">Raphael<span>.</span>Chin</div>
-      </a>
-
+      <div class="logo">Raphael<span>.</span>Chin</div>
       <button class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="#home" class="nav-item">Home</a></li>
@@ -435,7 +449,7 @@
         </div>
 
         <div class="hero-image">
-          <img src="image/Pic_Tokyo.jpeg" alt="Raphael Jeong Hin Chin">
+          <img src="image/Pic_Tokyo.jpg" alt="Raphael Jeong Hin Chin">
         </div>
       </div>
     </section>
@@ -577,9 +591,7 @@
           <li><strong>Longitudinal Analysis:</strong> Modeled health-survey data using dynamic time warping to identify
             patterns in diet and hygiene for interventions in India.</li>
         </ul>
-        <a href="https://scholar.google.com/citations?user=e2ZUooEAAAAJ&hl=en&oi=ao" target="_blank">
-          <h4 style="margin-top: 1.5rem;">Selected Publications <i class="fas fa-external-link-alt"></i></h4>
-        </a>
+        <h4 style="margin-top: 1.5rem;">Selected Publications</h4>
         <ul>
           <li><strong>IEEE CoG 2024:</strong> Examining Gameplay Patterns and their Association with Nutritional
             Knowledge.</li>
